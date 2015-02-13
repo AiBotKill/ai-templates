@@ -14,10 +14,14 @@ public class MessageListener extends Thread {
 
     TCPClient client;
     MessageHandler handler;
+    MessageBuffer messageBuffer;
+    String aiId;
 
-    public MessageListener(TCPClient client) {
+    public MessageListener(TCPClient client, MessageBuffer buffer, String aiId) {
         this.client = client;
         handler = new MessageHandler();
+        messageBuffer = buffer;
+        this.aiId = aiId;
     }
 
     public void run() {
@@ -25,7 +29,7 @@ public class MessageListener extends Thread {
 
         while (!isInterrupted()) {
 
-            String msg = client.readLine();
+            String msg = messageBuffer.read(aiId);
 
             if (msg != null) {
                 String response = handler.handle(msg);

@@ -13,10 +13,12 @@ public class MessageHandler {
     private Game game;
 
     public static final String GAME_OVER = "gameover";
+    public static final String JOIN_REQUEST = "joinrequest";
+    public static final String GAME_STATE = "gamestate";
+    public static final String EXPERIENCE = "experience";
+    public static final String ROUND_END = "roundend";
 
-    public String handleJoinRequest(String msg) {
-        final String JOIN_REQUEST = "joinrequest";
-
+    public String handle(String msg) {
         JSONObject msgJson = new JSONObject(msg);
         String msgType = (String) msgJson.keySet().toArray()[0];
         JSONObject msgObject = msgJson.getJSONObject(msgType);
@@ -28,27 +30,7 @@ public class MessageHandler {
                 // Game data received. Create our own game object.
                 game = new Game(msgObject);
                 // Create the player and return createplayer message
-                response = game.createPlayer();
-                break;
-            default:
-                System.out.println("Unknown message type received: " + msgType);
-        }
-
-        return response;
-    }
-
-    public String handle(String msg) {
-        final String GAME_STATE = "gamestate";
-        final String EXPERIENCE = "experience";
-        final String ROUND_END = "roundend";
-
-        JSONObject msgJson = new JSONObject(msg);
-        String msgType = (String) msgJson.keySet().toArray()[0];
-        JSONObject msgObject = msgJson.getJSONObject(msgType);
-
-        String response = null;
-
-        switch (msgType) {
+                return game.createPlayer();
             case GAME_STATE:
                 // Update game state and return possible action message
                 response = game.update(msgObject);
