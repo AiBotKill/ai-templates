@@ -1,6 +1,6 @@
 # Example implementation of bot AI for JavaScript
 
-1. First install node.js.
+1. First install node.js. Google will be your assistant.
 2. Install websocket module:
 
     > npm install websocket

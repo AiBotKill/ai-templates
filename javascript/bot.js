@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 var WebSocketClient = require('websocket').client;
+var Game = require('./game.js');
 
 var client = new WebSocketClient();
+var game; // = new Game();
 
 client.on('connectFailed', function(error) {
     console.log('Connect Error: ' + error.toString());
@@ -16,19 +18,37 @@ client.on('connect', function(connection) {
         console.log('echo-protocol Connection Closed');
     });
     connection.on('message', function(message) {
+        console.log('Received: ' + JSON.stringify(message));
         if (message.type === 'utf8') {
-            console.log("Received: '" + message.utf8Data + "'");
+            var data = JSON.parse(message.utf8Data);
+            if (data.type === 'gamestate') {
+                game.handleGameState(data);
+            } else if (data.type === 'experience') {
+                game.handleExperience(data);
+            } else if (data.type === 'rounded') {
+                game.handleRounded(data);
+            } else if (data.type === 'reply') {
+                var info = {botId:data.id};
+                game = new Game(info, sendAction);
+            }
         }
     });
-
-    function sendNumber() {
+    var sendJoinRequest = function() {
         if (connection.connected) {
-            var number = Math.round(Math.random() * 0xFFFFFF);
-            connection.sendUTF(number.toString());
-            setTimeout(sendNumber, 1000);
+			// Send start command
+            var teamRequest = { teamId: "" }
+            console.log("Sending join request");
+            connection.sendUTF(JSON.stringify(teamRequest));
         }
     }
-    sendNumber();
+    var sendAction = function(action) {
+        if (connection.connected) {
+            console.log("Sending action ");
+            connection.sendUTF(JSON.stringify(action));
+        }
+    }
+
+    sendJoinRequest();
 });
 
-client.connect('ws://localhost:8080/', 'echo-protocol');
+client.connect('', '');
