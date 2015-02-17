@@ -1,19 +1,15 @@
 package botkill;
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 public class AI extends Thread {
 
     private TCPClient client;
     private MessageHandler handler;
-    private MessageBuffer messageBuffer;
 
     public AI(TCPClient client) {
         this.client = client;
         handler = new MessageHandler();
-        messageBuffer = new MessageBuffer();
     }
 
     /**
@@ -27,27 +23,18 @@ public class AI extends Thread {
             // Read messages from game server
             String msg = client.readLine();
 
-            String msgType = parseMsgType(msg);
-            String aiId = parseAiId(msg);
+            if (msg != null) {
+                String response = handler.handle(msg);
+                if (response != null) {
 
-            // Is it a join request? Create new game and player in here.
-            if (msgType != null && msgType.equals(MessageHandler.JOIN_REQUEST)) {
-                // Join request contains game data which should be utilized to set our player properties
-                String createPlayerMsg = handler.handle(msg);
-                if (createPlayerMsg != null) {
-                    // Create the player
-                    client.send(createPlayerMsg);
-
-                    // Start game loop
-                    MessageListener listener = new MessageListener(client, messageBuffer, aiId);
-                    listener.start();
-                } else {
-                    System.out.println("Create player msg was null...this shouldn't happen if you want to join any games.");
+                    // Check if our game ended. Not just one round but the whole game.
+                    if (response.equals(MessageHandler.GAME_OVER)) {
+                        // Interrupt this AI
+                        interrupt();
+                    } else {
+                        client.send(response);
+                    }
                 }
-            }
-            // Message is related to a certain game, insert msgs into that game's queue.
-            else if (msgType != null) {
-                messageBuffer.add(aiId, msg);
             }
 
             try {
@@ -59,24 +46,10 @@ public class AI extends Thread {
 
     }
 
-    private String parseMsgType(String msg) {
-        if (msg == null) return null;
-
-        JSONObject msgJson = new JSONObject(msg);
-        return (String) msgJson.keySet().toArray()[0];
-    }
-
-    private String parseAiId(String msg) {
-        if (msg == null) return null;
-
-        JSONObject msgJson = new JSONObject(msg);
-        return (String) msgJson.keySet().toArray()[1];
-    }
-
     public static void main(String[] args) throws IOException {
         TCPClient client = new TCPClient();
         // TODO: Change the ID
-        client.connect("MY_SECRET_ID");
+        client.connect("c357b505-5e00-47ce-aa46-e307c2238a76", "v0.1");
 
         AI ai = new AI(client);
         ai.start();

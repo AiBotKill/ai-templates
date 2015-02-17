@@ -67,4 +67,76 @@ public class Game {
     public Player getMyPlayer() {
         return myPlayer;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getRoundTime() {
+        return roundTime;
+    }
+
+    public void setRoundTime(int roundTime) {
+        this.roundTime = roundTime;
+    }
+
+    public GameEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(GameEnvironment environment) {
+        this.environment = environment;
+    }
+
+    public GameMode getMode() {
+        return mode;
+    }
+
+    public void setMode(GameMode mode) {
+        this.mode = mode;
+    }
+
+    public float getRain() {
+        return rain;
+    }
+
+    public void setRain(float rain) {
+        this.rain = rain;
+    }
+
+    public float getDarkness() {
+        return darkness;
+    }
+
+    public void setDarkness(float darkness) {
+        this.darkness = darkness;
+    }
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
 }

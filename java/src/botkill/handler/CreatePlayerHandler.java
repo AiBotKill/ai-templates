@@ -15,6 +15,7 @@ import org.json.JSONObject;
 public class CreatePlayerHandler implements Handler<Game> {
 
     private Player player;
+    private String gameId;
 
     public CreatePlayerHandler(Player player) {
         this.player = player;
@@ -22,13 +23,15 @@ public class CreatePlayerHandler implements Handler<Game> {
 
     @Override
     public String getMessage() {
-        JSONObject createPlayer = new JSONObject();
-        createPlayer.put("createplayer", new JSONObject(new Gson().toJson(player)));
-        return createPlayer.toString();
+        JSONObject join = new JSONObject();
+        join.put("player", new JSONObject(new Gson().toJson(player)));
+        join.put("gameId", gameId);
+        return join.toString();
     }
 
     @Override
     public void handle(Game game) {
+        gameId = game.getId();
         // TODO: IMPLEMENT PLAYER CREATION
 
         player.setName("Bot");

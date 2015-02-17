@@ -19,9 +19,15 @@ public class MessageHandler {
     public static final String ROUND_END = "roundend";
 
     public String handle(String msg) {
-        JSONObject msgJson = new JSONObject(msg);
-        String msgType = (String) msgJson.keySet().toArray()[0];
-        JSONObject msgObject = msgJson.getJSONObject(msgType);
+        String msgType = "NO MESSAGE TYPE";
+        JSONObject msgObject = null;
+        try {
+            JSONObject msgJson = new JSONObject(msg);
+            msgType = (String) msgJson.keySet().toArray()[0];
+            msgObject = msgJson.getJSONObject(msgType);
+        } catch (Exception e) {
+            System.out.println("Failed to parse msgtype. Exception: " + e.getMessage());
+        }
 
         String response = null;
 
