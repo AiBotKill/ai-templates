@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var WebSocketClient = require('websocket').client;
 var Game = require('./game.js');
+var config = require('./config.json');
 
 var client = new WebSocketClient();
 var game; // = new Game();
@@ -18,16 +19,20 @@ client.on('connect', function(connection) {
         console.log('echo-protocol Connection Closed');
     });
     connection.on('message', function(message) {
-        console.log('Received: ' + JSON.stringify(message));
+        //console.log('Received: ' + JSON.stringify(message));
+
+        //console.log('received ' + message.type);
         if (message.type === 'utf8') {
             var data = JSON.parse(message.utf8Data);
-            if (data.type === 'gamestate') {
+            console.log('received data ' + data.type);
+            if (data.type === 'gameState') {
                 game.handleGameState(data);
             } else if (data.type === 'experience') {
                 game.handleExperience(data);
             } else if (data.type === 'rounded') {
                 game.handleRounded(data);
             } else if (data.type === 'reply') {
+                console.log('Received: ' + JSON.stringify(message));
                 var info = {botId:data.id};
                 game = new Game(info, sendAction);
             }
@@ -36,7 +41,7 @@ client.on('connect', function(connection) {
     var sendJoinRequest = function() {
         if (connection.connected) {
 			// Send start command
-            var teamRequest = { teamId: "" }
+            var teamRequest = { teamId: config.teamId }
             console.log("Sending join request");
             connection.sendUTF(JSON.stringify(teamRequest));
         }
@@ -51,4 +56,4 @@ client.on('connect', function(connection) {
     sendJoinRequest();
 });
 
-client.connect('', '');
+client.connect(config.server, '');
