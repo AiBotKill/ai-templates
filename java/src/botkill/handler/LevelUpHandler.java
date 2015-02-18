@@ -39,7 +39,7 @@ public class LevelUpHandler implements Handler<Integer> {
             exp2 = (exp - 1) / 2;
         }
 
-        player.setHp(player.getHp() + exp1);
+        player.setHitpoints(player.getHitpoints() + exp1);
         player.getWeapon().setDamage(player.getWeapon().getDamage() + exp2);
     }
 }
