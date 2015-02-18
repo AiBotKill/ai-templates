@@ -30,15 +30,15 @@ public class Game {
     private Player myPlayer;
 
     public Game(JSONObject game) {
-        this.id = game.getString("gameId");
-        this.rounds = game.getInt("rounds");
-        this.currentRound = 1;
-        this.roundTime = game.getInt("roundTime");
-        this.environment = GameEnvironment.valueOf(game.getString("environment"));
-        this.mode = GameMode.valueOf(game.getString("gameMode"));
-        this.rain = (float)game.getDouble("rain");
-        this.darkness = (float)game.getDouble("darkness");
-        this.playerCount = game.getInt("playerCount");
+        this.id = game.getString("id");
+        //this.rounds = game.getInt("rounds");
+        //this.currentRound = 1;
+        //this.roundTime = game.getInt("roundTime");
+        //this.environment = GameEnvironment.valueOf(game.getString("environment"));
+        //this.mode = GameMode.valueOf(game.getString("gameMode"));
+        //this.rain = (float)game.getDouble("rain");
+        //this.darkness = (float)game.getDouble("darkness");
+        this.playerCount = game.getJSONArray("players").length();
 
         gameStateHandler = new GameStateHandler();
     }

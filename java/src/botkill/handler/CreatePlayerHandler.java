@@ -35,7 +35,7 @@ public class CreatePlayerHandler implements Handler<Game> {
         // TODO: IMPLEMENT PLAYER CREATION
 
         player.setName("Bot");
-        player.setHp(50);
+        player.setHitpoints(50);
         player.setSpeed(50);
         player.setSight(50);
         player.setHearing(50);

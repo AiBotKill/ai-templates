@@ -14,27 +14,25 @@ import java.net.Socket;
  */
 public class TCPClient {
 
-    private final String HOST = "localhost";
+    private final String HOST = "dead.coffee";
     private final int PORT = 2000;
 
     private Socket clientSocket;
     private DataOutputStream out;
     private BufferedReader in;
 
-    public TCPClient() {
+    public TCPClient() {}
 
-    }
-
-    public void connect(String secretId, String version) throws IOException {
+    public synchronized void connect(String secretId) throws IOException {
         clientSocket = new Socket(HOST, PORT);
         out = new DataOutputStream(clientSocket.getOutputStream());
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         // This connects the bot to the correct ai-game-console team
-        send("{registerAI: {\"botId\":\"" + secretId + "\"}, \"version\":\"" + version + "\"}");
+        send("{\"teamId\":\"" + secretId + "\"}");
     }
 
-    public void send(String msg) {
+    public synchronized void send(String msg) {
         try {
             out.writeBytes(msg + '\n');
             out.flush();
@@ -43,9 +41,14 @@ public class TCPClient {
         }
     }
 
-    public String readLine() {
+    public synchronized String readLine() {
         try {
-            return in.readLine();
+            if (in.ready()) {
+                String line = in.readLine();
+                return line;
+            } else {
+                return null;
+            }
         } catch (IOException e) {
             System.out.println("Unable to read msg from server. Exception: " + e.getMessage());
             return null;

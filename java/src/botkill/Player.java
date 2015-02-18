@@ -22,19 +22,19 @@ public class Player {
     private String name;
 
     private Integer currentHp;
-    private int hp;
+    private int hitpoints;
     private int speed;
     private int sight;
     private int hearing;
     private Weapon weapon;
 
-    private Float x;
-    private Float y;
+    private Vector2d position;
     private Vector2d velocity;
-    private Vector2d lookAt;
+    private Vector2d lookingAt;
     private Vector2d shootAt;
     private Integer team;
-    private Boolean isDead;
+    private Boolean killed;
+    private Integer damageMade;
 
     // Create our player based on the game data
     public Player(Game game) {
@@ -70,14 +70,6 @@ public class Player {
         this.hearing = hearing;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
     public String getId() {
         return id;
     }
@@ -86,20 +78,12 @@ public class Player {
         this.id = id;
     }
 
-    public Boolean isDead() {
-        return isDead;
+    public Vector2d getLookingAt() {
+        return lookingAt;
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
-    }
-
-    public Vector2d getLookAt() {
-        return lookAt;
-    }
-
-    public void setLookAt(Vector2d lookAt) {
-        this.lookAt = lookAt;
+    public void setLookingAt(Vector2d lookingAt) {
+        this.lookingAt = lookingAt;
     }
 
     public String getName() {
@@ -158,19 +142,39 @@ public class Player {
         this.weapon = weapon;
     }
 
-    public Float getX() {
-        return x;
+    public int getHitpoints() {
+        return hitpoints;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setHitpoints(int hitpoints) {
+        this.hitpoints = hitpoints;
     }
 
-    public Float getY() {
-        return y;
+    public Vector2d getPosition() {
+        return position;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setPosition(Vector2d position) {
+        this.position = position;
+    }
+
+    public void setTeam(Integer team) {
+        this.team = team;
+    }
+
+    public Boolean getKilled() {
+        return killed;
+    }
+
+    public void setKilled(Boolean killed) {
+        this.killed = killed;
+    }
+
+    public Integer getDamageMade() {
+        return damageMade;
+    }
+
+    public void setDamageMade(Integer damageMade) {
+        this.damageMade = damageMade;
     }
 }

@@ -10,15 +10,10 @@ import java.util.List;
  */
 public class GameState {
 
-    private int timeLeft;
-    private boolean indoor;
-    private float rain;
-    private float darkness;
+    private int timeLeftMs;
     private Player myPlayer;
     private List<Player> players;
-    private List<Item> items;
     private List<Bullet> bullets;
-    private List<Sound> sounds;
 
     public List<Bullet> getBullets() {
         return bullets;
@@ -26,30 +21,6 @@ public class GameState {
 
     public void setBullets(List<Bullet> bullets) {
         this.bullets = bullets;
-    }
-
-    public float getDarkness() {
-        return darkness;
-    }
-
-    public void setDarkness(float darkness) {
-        this.darkness = darkness;
-    }
-
-    public boolean isIndoor() {
-        return indoor;
-    }
-
-    public void setIndoor(boolean indoor) {
-        this.indoor = indoor;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
     }
 
     public Player getMyPlayer() {
@@ -68,27 +39,11 @@ public class GameState {
         this.players = players;
     }
 
-    public float getRain() {
-        return rain;
+    public int getTimeLeftMs() {
+        return timeLeftMs;
     }
 
-    public void setRain(float rain) {
-        this.rain = rain;
-    }
-
-    public List<Sound> getSounds() {
-        return sounds;
-    }
-
-    public void setSounds(List<Sound> sounds) {
-        this.sounds = sounds;
-    }
-
-    public int getTimeLeft() {
-        return timeLeft;
-    }
-
-    public void setTimeLeft(int timeLeft) {
-        this.timeLeft = timeLeft;
+    public void setTimeLeftMs(int timeLeftMs) {
+        this.timeLeftMs = timeLeftMs;
     }
 }
