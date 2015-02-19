@@ -25,7 +25,7 @@ public class GameStateHandler implements Handler<GameState> {
         // TODO: IMPLEMENT GAME STATE HANDLING
         nextAction = new ActionMessage();
         nextAction.setActionType(Action.MOVE);
-        nextAction.setDirection(Vector2d.EAST);
-        nextAction.setSpeed(0.5f);
+        Vector2d currentPos = state.getMyPlayer().getPosition();
+        nextAction.setDirection(new Vector2d(currentPos.getX()+1.0f, currentPos.getY()+1.0f));
     }
 }

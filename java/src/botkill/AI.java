@@ -4,6 +4,9 @@ import java.io.IOException;
 
 public class AI implements Runnable {
 
+    // TODO: CHANGE ME
+    public static final String BOT_ID = "32224957-e7e2-40df-b90b-ca1ac3c40f06"; // "c25fcc33-92d5-4c03-83b1-5a92ab762ace"
+
     private final TCPClient client;
     private MessageHandler handler;
 
@@ -49,9 +52,7 @@ public class AI implements Runnable {
 
     public static void main(String[] args) throws IOException {
         TCPClient client = new TCPClient();
-        // TODO: Change the ID
-        client.connect("32224957-e7e2-40df-b90b-ca1ac3c40f06");
-
+        client.connect(BOT_ID);
         Runnable ai = new AI(client);
         new Thread(ai).run();
     }

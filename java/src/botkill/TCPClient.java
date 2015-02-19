@@ -34,6 +34,7 @@ public class TCPClient {
 
     public synchronized void send(String msg) {
         try {
+            System.out.println("Sending: " + msg);
             out.writeBytes(msg + '\n');
             out.flush();
         } catch (IOException e) {

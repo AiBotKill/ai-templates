@@ -1,6 +1,9 @@
 package botkill;
 
+import botkill.util.Vector2d;
+
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,10 +13,12 @@ import java.util.List;
  */
 public class GameState {
 
-    private int timeLeftMs;
+    private int timeLeft;
+    private String state;
     private Player myPlayer;
     private List<Player> players;
     private List<Bullet> bullets;
+    private List<Collision> collisions;
 
     public List<Bullet> getBullets() {
         return bullets;
@@ -28,7 +33,12 @@ public class GameState {
     }
 
     public void setMyPlayer(Player myPlayer) {
-        this.myPlayer = myPlayer;
+        for (Player player : players) {
+            if (player.getBotId().equals(myPlayer.getBotId())) {
+                this.myPlayer = player;
+                break;
+            }
+        }
     }
 
     public List<Player> getPlayers() {
@@ -39,11 +49,27 @@ public class GameState {
         this.players = players;
     }
 
-    public int getTimeLeftMs() {
-        return timeLeftMs;
+    public int getTimeLeft() {
+        return timeLeft;
     }
 
-    public void setTimeLeftMs(int timeLeftMs) {
-        this.timeLeftMs = timeLeftMs;
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public List<Collision> getCollisions() {
+        return collisions;
+    }
+
+    public void setCollisions(List<Collision> collisions) {
+        this.collisions = collisions;
     }
 }
