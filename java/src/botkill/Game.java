@@ -5,6 +5,7 @@ import botkill.enums.GameMode;
 import botkill.handler.GameStateHandler;
 import botkill.handler.Handler;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -17,30 +18,29 @@ public class Game {
 
     private Handler<GameState> gameStateHandler;
 
-    private String id;
+    private String id = null;
     private int rounds;
     private int currentRound;
     private int roundTime;
     private GameEnvironment environment;
     private GameMode mode;
-    private float rain;
-    private float darkness;
     private int playerCount;
+    private float[] gameArea;
 
     private Player myPlayer;
 
-    public Game(JSONObject game) {
-        this.id = game.getString("id");
-        //this.rounds = game.getInt("rounds");
-        //this.currentRound = 1;
-        //this.roundTime = game.getInt("roundTime");
-        //this.environment = GameEnvironment.valueOf(game.getString("environment"));
-        //this.mode = GameMode.valueOf(game.getString("gameMode"));
-        //this.rain = (float)game.getDouble("rain");
-        //this.darkness = (float)game.getDouble("darkness");
-        this.playerCount = game.getJSONArray("players").length();
-
+    public Game() {
         gameStateHandler = new GameStateHandler();
+    }
+
+    public void setGameData(JSONObject game) {
+        this.id = game.getString("id");
+        this.roundTime = game.getInt("timeLimit") / 1000000000;
+        this.mode = GameMode.valueOf(game.getString("mode"));
+        //this.environment = GameEnvironment.valueOf(game.getString("environment"));
+        this.playerCount = game.getJSONArray("players").length();
+        JSONArray gameAreaArray = game.getJSONArray("gameArea");
+        gameArea = new float[] { (float)gameAreaArray.getDouble(0), (float)gameAreaArray.getDouble(1) };
     }
 
     public void reset() {
@@ -49,19 +49,15 @@ public class Game {
 
     public String update(JSONObject state) {
         GameState gameState = new Gson().fromJson(state.toString(), GameState.class);
+        System.out.println("Game state: " + gameState.getState());
+        gameState.setMyPlayer(myPlayer);
         gameStateHandler.handle(gameState);
         return gameStateHandler.getMessage();
     }
 
-    public String createPlayer() {
-        // If we already have a player, don't create a new one.
-        // This will occur because game data is received after every round.
-        if (myPlayer != null) {
-            return null;
-        }
-
-        myPlayer = new Player(this);
-        return myPlayer.getCreatePlayerMessage();
+    public void createPlayer(String id) {
+        myPlayer = new Player();
+        myPlayer.setBotId(id);
     }
 
     public Player getMyPlayer() {
@@ -116,27 +112,19 @@ public class Game {
         this.mode = mode;
     }
 
-    public float getRain() {
-        return rain;
-    }
-
-    public void setRain(float rain) {
-        this.rain = rain;
-    }
-
-    public float getDarkness() {
-        return darkness;
-    }
-
-    public void setDarkness(float darkness) {
-        this.darkness = darkness;
-    }
-
     public int getPlayerCount() {
         return playerCount;
     }
 
     public void setPlayerCount(int playerCount) {
         this.playerCount = playerCount;
+    }
+
+    public float[] getGameArea() {
+        return gameArea;
+    }
+
+    public void setGameArea(float[] gameArea) {
+        this.gameArea = gameArea;
     }
 }

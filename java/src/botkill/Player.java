@@ -15,10 +15,8 @@ import org.json.JSONObject;
  */
 public class Player {
 
-    private Handler<Integer> levelUpHandler;
-    private Handler<Game> createPlayerHandler;
-
     private String id;
+    private String botId;
     private String name;
 
     private Integer currentHp;
@@ -35,24 +33,9 @@ public class Player {
     private Integer team;
     private Boolean killed;
     private Integer damageMade;
+    private ActionMessage action;
 
-    // Create our player based on the game data
-    public Player(Game game) {
-        createPlayerHandler = new CreatePlayerHandler(this);
-        createPlayerHandler.handle(game);
-
-        levelUpHandler = new LevelUpHandler(this);
-    }
-
-    public String levelUp(JSONObject exp) {
-        int points = new JSONObject(exp).getInt("points");
-        levelUpHandler.handle(points);
-        return levelUpHandler.getMessage();
-    }
-
-    public String getCreatePlayerMessage() {
-        return createPlayerHandler.getMessage();
-    }
+    public Player() {}
 
     public Integer getCurrentHp() {
         return currentHp;
@@ -176,5 +159,21 @@ public class Player {
 
     public void setDamageMade(Integer damageMade) {
         this.damageMade = damageMade;
+    }
+
+    public ActionMessage getAction() {
+        return action;
+    }
+
+    public void setAction(ActionMessage action) {
+        this.action = action;
+    }
+
+    public String getBotId() {
+        return botId;
+    }
+
+    public void setBotId(String botId) {
+        this.botId = botId;
     }
 }

@@ -14,6 +14,7 @@ import botkill.util.Vector2d;
 public class GameStateHandler implements Handler<GameState> {
 
     private ActionMessage nextAction;
+    private Vector2d shootingDir;
 
     @Override
     public String getMessage() {
@@ -24,8 +25,13 @@ public class GameStateHandler implements Handler<GameState> {
     public void handle(GameState state) {
         // TODO: IMPLEMENT GAME STATE HANDLING
         nextAction = new ActionMessage();
-        nextAction.setActionType(Action.MOVE);
-        nextAction.setDirection(Vector2d.EAST);
-        nextAction.setSpeed(0.5f);
+        nextAction.setActionType(Action.SHOOT);
+        if (shootingDir == null) {
+            Vector2d currentPos = state.getMyPlayer().getPosition();
+            shootingDir = new Vector2d(currentPos.getX(), currentPos.getY()-1);
+        }
+
+        nextAction.setDirection(shootingDir);
+        shootingDir.rotate(5*Math.PI/180);
     }
 }

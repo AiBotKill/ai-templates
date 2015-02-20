@@ -11,7 +11,7 @@ import com.google.gson.Gson;
  * Time: 2:20
  */
 public class ActionMessage {
-    private int type;
+    private String type;
     private Vector2d direction;
 
     public String getMessage() {
@@ -27,18 +27,18 @@ public class ActionMessage {
     }
 
     public void setActionType(Action type) {
-        this.type = type.ordinal();
+        this.type = type.toString().toLowerCase();
     }
 
     public Action getActionType() {
-        return Action.getByIndex(type);
+        return Action.valueOf(type.toUpperCase());
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
