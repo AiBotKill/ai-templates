@@ -5,6 +5,7 @@ var config = require('./config.json');
 
 var client = new WebSocketClient();
 var game; // = new Game();
+var games = {};
 
 client.on('connectFailed', function(error) {
     console.log('Connect Error: ' + error.toString());
@@ -23,18 +24,20 @@ client.on('connect', function(connection) {
 
         //console.log('received ' + message.type);
         if (message.type === 'utf8') {
-            var data = JSON.parse(message.utf8Data);
-            console.log('received data ' + data.type);
-            if (data.type === 'gameState') {
-                game.handleGameState(data);
-            } else if (data.type === 'experience') {
-                game.handleExperience(data);
-            } else if (data.type === 'rounded') {
-                game.handleRounded(data);
-            } else if (data.type === 'reply') {
-                console.log('Received: ' + JSON.stringify(message));
-                var info = {botId:data.id};
-                game = new Game(info, sendAction);
+            if(message.utf8Data!=undefined && message.utf8Data.length>0) {
+                var data = JSON.parse(message.utf8Data);
+                console.log('received ' + data.type);
+                if (data.type === 'gameState') {
+                    game.handleGameState(data);
+                } else if (data.type === 'gameEnd') {
+                    game = null;
+                } else if (data.type === 'reply') {
+                    console.log('Received: ' + JSON.stringify(message));
+                    if(game===undefined) {
+                        var info = {botId: data.id};
+                        game = new Game(info, sendAction);
+                    }
+                }
             }
         }
     });
