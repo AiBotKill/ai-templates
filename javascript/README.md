@@ -5,6 +5,13 @@
 
     > npm install websocket
 
+3. Add config.json file with the following content:
+
+	{
+		"teamId":"<your team GUID from ai.hell.fi>",
+		"server":"ws://server:port/"
+	}
+	
 3. Start your bot:
 
     > node bot.js
