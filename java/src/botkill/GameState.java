@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class GameState {
 
-    private int timeLeft;
+    private float timeLeft;
     private String state;
     private Player myPlayer;
     private List<Player> players;
@@ -49,11 +49,11 @@ public class GameState {
         this.players = players;
     }
 
-    public int getTimeLeft() {
+    public float getTimeLeft() {
         return timeLeft;
     }
 
-    public void setTimeLeft(int timeLeft) {
+    public void setTimeLeft(float timeLeft) {
         this.timeLeft = timeLeft;
     }
 

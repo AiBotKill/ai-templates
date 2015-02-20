@@ -13,11 +13,8 @@ public class MessageHandler {
     private Game game;
     private boolean registered = false;
 
-    public static final String GAME_OVER = "gameover";
-    public static final String JOIN_REQUEST = "joinrequest";
+    public static final String GAME_OVER = "gameEnd";
     public static final String GAME_STATE = "gameState";
-    public static final String EXPERIENCE = "experience";
-    public static final String ROUND_END = "roundend";
     public static final String REPLY = "reply";
 
     public String handle(String msg) {
@@ -48,12 +45,6 @@ public class MessageHandler {
                     System.out.println("Bot registered OK with id: " + myBotId.split("-")[0]);
                 }
                 break;
-            case JOIN_REQUEST:
-                // NOT SUPPORTED
-                // Game data received. Create our own game object.
-                //game = new Game(msgJson);
-                // Create the player and return createplayer message
-                //return game.createPlayer();
             case GAME_STATE:
                 if (game.getId() == null) {
                     game.setGameData(msgJson);
@@ -61,18 +52,9 @@ public class MessageHandler {
                 // Update game state and return possible action message
                 response = game.update(msgJson);
                 break;
-            case EXPERIENCE:
-                // NOT SUPPORTED
-                // Assign exp points in player/weapon skills and return levelup message
-                //response = game.getMyPlayer().levelUp(msgJson);
-                break;
             case GAME_OVER:
                 game = null;
                 response = GAME_OVER;
-            case ROUND_END:
-                // NOT SUPPORTED
-                //assert game != null;
-                //game.reset();
             default:
                 System.out.println("Unknown message type received: " + msgType + " in message: " + msg);
         }

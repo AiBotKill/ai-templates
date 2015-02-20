@@ -32,6 +32,10 @@ public class TCPClient {
         send("{\"teamId\":\"" + secretId + "\"}");
     }
 
+    public synchronized boolean disconnected() {
+        return clientSocket.isClosed();
+    }
+
     public synchronized void send(String msg) {
         try {
             System.out.println("Sending: " + msg);

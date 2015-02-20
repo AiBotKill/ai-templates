@@ -5,8 +5,7 @@ import java.io.IOException;
 public class AI implements Runnable {
 
     // TODO: CHANGE ME
-    public static final String BOT_ID = "32224957-e7e2-40df-b90b-ca1ac3c40f06"; // "c25fcc33-92d5-4c03-83b1-5a92ab762ace"
-
+    public static final String BOT_ID = "CHANGE_ME";
     private final TCPClient client;
     private MessageHandler handler;
 
@@ -22,6 +21,11 @@ public class AI implements Runnable {
 
 
         while (!Thread.currentThread().isInterrupted()) {
+            // If socket disconnects, interrupt thread
+            if (client.disconnected()) {
+                System.out.println("Socket disconnected. Terminating.");
+                Thread.currentThread().interrupt();
+            }
 
             // Read messages from game server
             String msg = client.readLine();
@@ -41,7 +45,7 @@ public class AI implements Runnable {
             }
 
             try {
-               Thread.sleep(1000); // Work at maximum speed of 60fps
+               Thread.sleep(1000/60); // Work at maximum speed of 60fps
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

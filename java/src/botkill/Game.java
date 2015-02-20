@@ -49,6 +49,7 @@ public class Game {
 
     public String update(JSONObject state) {
         GameState gameState = new Gson().fromJson(state.toString(), GameState.class);
+        System.out.println("Game state: " + gameState.getState());
         gameState.setMyPlayer(myPlayer);
         gameStateHandler.handle(gameState);
         return gameStateHandler.getMessage();
