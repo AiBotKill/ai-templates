@@ -1,0 +1,28 @@
+{
+  "name": "ai-template-js",
+  "version": "1.0.0",
+  "description": "AI Template for AI Bot Kill competition",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AiBotKill/ai-templates.git"
+  },
+  "keywords": [
+    "ai",
+    "javascript",
+    "bot",
+    "game"
+  ],
+  "author": "",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/AiBotKill/ai-templates/issues"
+  },
+  "homepage": "https://github.com/AiBotKill/ai-templates#readme",
+  "dependencies": {
+    "websocket": "^1.0.17"
+  }
+}
